@@ -5,15 +5,11 @@ export default function Game() {
   const [pos, setPos] = useState({x: 15, y: 75})
   const [showGift, setShowGift] = useState(false)
   const keys = useRef<Record<string,boolean>>({})
+  const joy = useRef({x:0, y:0})
 
   const hideSpots = [
-    {x: 65, y: 55},
-    {x: 25, y: 55},
-    {x: 70, y: 35},
-    {x: 35, y: 35},
-    {x: 20, y: 70},
-    {x: 75, y: 70},
-    {x: 50, y: 50},
+    {x: 65, y: 55},{x: 25, y: 55},{x: 70, y: 35},
+    {x: 35, y: 35},{x: 20, y: 70},{x: 75, y: 70},{x: 50, y: 50},
   ]
   const [giftSpot] = useState(()=> hideSpots[Math.floor(Math.random()*hideSpots.length)])
   const giftPos = giftSpot
@@ -23,7 +19,7 @@ export default function Game() {
   const canSee = dist < 12
 
   let hintText = "🔍 Cari terus..."
-  if(dist < 10) hintText = "🔥🔥 DIKIT LAGI! GOYANG DIKIT!"
+  if(dist < 10) hintText = "🔥🔥 DIKIT LAGI!"
   else if(dist < 20) hintText = "🔥 Panas! Deket!"
   else if(dist < 40) hintText = "🌤️ Hangat"
 
@@ -34,20 +30,13 @@ export default function Game() {
     window.addEventListener('keyup', up)
     const loop = setInterval(()=>{
       setPos(p=>{
-        let nx=p.x, ny=p.y
-        if(keys.current['w'] || keys.current['arrowup']) ny-=1.2
-        if(keys.current['s'] || keys.current['arrowdown']) ny+=1.2
-        if(keys.current['a'] || keys.current['arrowleft']) nx-=1.2
-        if(keys.current['d'] || keys.current['arrowright']) nx+=1.2
+        let nx=p.x + (keys.current['d']||keys.current['arrowright']?1.2:0) + (keys.current['a']||keys.current['arrowleft']?-1.2:0) + joy.current.x*1.5
+        let ny=p.y + (keys.current['s']||keys.current['arrowdown']?1.2:0) + (keys.current['w']||keys.current['arrowup']?-1.2:0) + joy.current.y*1.5
         return {x: Math.max(5,Math.min(90,nx)), y: Math.max(15,Math.min(90,ny))}
       })
     },14)
-    const prevent = (e:TouchEvent)=> e.preventDefault()
-    document.addEventListener('touchmove', prevent, {passive:false})
-    return ()=>{clearInterval(loop); window.removeEventListener('keydown',down); window.removeEventListener('keyup',up); document.removeEventListener('touchmove', prevent)}
+    return ()=>{clearInterval(loop); window.removeEventListener('keydown',down); window.removeEventListener('keyup',up)}
   },[])
-
-  const move = (k:string, v:boolean) => keys.current[k]=v
 
   return (
     <div className="h-[100dvh] w-screen relative overflow-hidden select-none text-black touch-none bg-[#ffdee9]" style={{touchAction:'none'}}>
@@ -67,80 +56,74 @@ export default function Game() {
               <div className="absolute inset-0 bg-yellow-200 rounded-full blur-[20px] animate-pulse"></div>
               <div className="text-6xl animate-bounce relative">🎁</div>
             </>
-          ) : (
-            <div className="text-[12px] animate-ping">✨</div>
-          )}
+          ) : <div className="text-[12px] animate-ping">✨</div>}
         </div>
       )}
 
-      <div style={{left:`${pos.x}%`, top:`${pos.y}%`, transform:'translate3d(-50%,-50%,0)', willChange:'transform'}} className="absolute z-20">
+      <div style={{left:`${pos.x}%`, top:`${pos.y}%`, transform:'translate3d(-50%,-50%,0)'}} className="absolute z-20">
         <div className="text-6xl drop-shadow-xl">🐰</div>
-        <div className="bg-white text-[8px] font-bold px-1.5 py-0.5 rounded-full text-center -mt-1 shadow border">Diyan • {Math.round(pos.x)},{Math.round(pos.y)}</div>
+        <div className="bg-white text-[8px] font-bold px-1.5 py-0.5 rounded-full text-center -mt-1 shadow border">Diyan</div>
       </div>
 
-      <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end z-30">
-        <div className="grid grid-cols-3 gap-1.5">
-          <div></div><button onTouchStart={(e)=>{e.preventDefault(); move('w',true)}} onTouchEnd={(e)=>{e.preventDefault(); move('w',false)}} onMouseDown={()=>move('w',true)} onMouseUp={()=>move('w',false)} className="w-[50px] h-[50px] bg-white rounded-[12px] shadow border-2 border-pink-200 font-bold active:scale-90">▲</button><div></div>
-          <button onTouchStart={(e)=>{e.preventDefault(); move('a',true)}} onTouchEnd={(e)=>{e.preventDefault(); move('a',false)}} onMouseDown={()=>move('a',true)} onMouseUp={()=>move('a',false)} className="w-[50px] h-[50px] bg-white rounded-[12px] shadow border-2 border-pink-200 font-bold active:scale-90">◀</button>
-          <button onTouchStart={(e)=>{e.preventDefault(); move('s',true)}} onTouchEnd={(e)=>{e.preventDefault(); move('s',false)}} onMouseDown={()=>move('s',true)} onMouseUp={()=>move('s',false)} className="w-[50px] h-[50px] bg-white rounded-[12px] shadow border-2 border-pink-200 font-bold active:scale-90">▼</button>
-          <button onTouchStart={(e)=>{e.preventDefault(); move('d',true)}} onTouchEnd={(e)=>{e.preventDefault(); move('d',false)}} onMouseDown={()=>move('d',true)} onMouseUp={()=>move('d',false)} className="w-[50px] h-[50px] bg-white rounded-[12px] shadow border-2 border-pink-200 font-bold active:scale-90">▶</button>
+      {/* JOYSTICK ROBLOX - CUMA MUNCUL DI HP */}
+      <div className="absolute bottom-4 left-4 z-30 lg:hidden">
+        <div
+          className="w-[120px] h-[120px] bg-white/40 backdrop-blur-md rounded-full border-2 border-white shadow-xl flex items-center justify-center relative"
+          onTouchMove={(e)=>{
+            const rect = e.currentTarget.getBoundingClientRect()
+            const t = e.touches[0]
+            const x = t.clientX - rect.left - rect.width/2
+            const y = t.clientY - rect.top - rect.height/2
+            const max = 40
+            const dist = Math.min(max, Math.hypot(x,y))
+            const ang = Math.atan2(y,x)
+            joy.current = {x: Math.cos(ang)*dist/max, y: Math.sin(ang)*dist/max}
+            const knob = document.getElementById('knob')!
+            knob.style.transform = `translate(${Math.cos(ang)*dist}px, ${Math.sin(ang)*dist}px)`
+          }}
+          onTouchEnd={()=>{
+            joy.current={x:0,y:0}
+            const knob = document.getElementById('knob')!
+            knob.style.transform = `translate(0px, 0px)`
+          }}
+        >
+          <div id="knob" className="w-[50px] h-[50px] bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.2)] border-2 border-pink-200 flex items-center justify-center font-bold text-pink-400 transition-transform duration-75">◍</div>
         </div>
-        <button disabled={!isNear} onClick={()=>isNear && setShowGift(true)} className={`px-6 py-3 rounded-2xl font-black border-2 border-white text-white shadow-[0_4px_0_#ff8ab8] ${isNear? 'bg-[#ff5a8f] animate-pulse' : 'bg-white/70 text-gray-400'}`}>🖐️<div className="text-[10px]">{isNear?'BUKA':'CARI'}</div></button>
+      </div>
+
+      <div className="absolute bottom-4 right-4 z-30">
+        <button disabled={!isNear} onClick={()=>isNear && setShowGift(true)} className={`w-[70px] h-[70px] rounded-full font-black border-[3px] border-white text-white shadow-xl flex flex-col items-center justify-center ${isNear? 'bg-[#ff5a8f] animate-pulse' : 'bg-white/60 text-gray-400'}`}>
+          <span className="text-xl">🎁</span><span className="text-[9px]">{isNear?'BUKA':'CARI'}</span>
+        </button>
       </div>
 
       {showGift && (
-        <div className="absolute inset-0 bg-pink-200/60 backdrop-blur-sm z-50 flex items-center justify-center p-5 overflow-y-auto">
-          <div className="bg-white rounded-[1.8rem] w-full max-w-sm p-5 shadow-2xl text-black border-2 border-pink-200 my-auto">
-            <p className="text-center text-4xl">🎉💖</p>
+        <div className="absolute inset-0 bg-pink-200/70 backdrop-blur-md z-50 flex items-start justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-[1.8rem] w-full max-w-sm p-5 shadow-2xl text-black border-2 border-pink-200 my-4 max-h-[88dvh] overflow-y-auto">
+            <p className="text-center text-3xl">🎉💖</p>
             <h2 className="text-center font-black text-[#ff5a8f] text-xl mt-1">KETEMU!</h2>
 
-            {/* PHOTOBOOTH MEMANJANG */}
-            <div className="mt-4 mx-auto bg-white p-2 pb-5 rounded-[4px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] rotate-[-1.5deg] w-[220px] border border-zinc-200">
-              <div className="flex justify-between px-3 mb-2">
-                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
-                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
-                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
-                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
-              </div>
+            <div className="mt-4 mx-auto bg-white p-2 pb-5 rounded-[4px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] rotate-[-1deg] w-[200px] border border-zinc-200">
+              <div className="flex justify-between px-3 mb-2"><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div></div>
               <div className="flex flex-col gap-2 bg-zinc-900 p-2">
-                <img src="/diyan1.jpeg" className="w-full h-36 object-cover" alt="diyan1" />
-                <img src="/diyan2.jpeg" className="w-full h-36 object-cover" alt="diyan2" />
-                <img src="/diyan3.jpeg" className="w-full h-36 object-cover" alt="diyan3" />
+                <img src="/diyan1.jpeg" className="w-full h-32 object-cover" />
+                <img src="/diyan2.jpeg" className="w-full h-32 object-cover" />
+                <img src="/diyan3.jpeg" className="w-full h-32 object-cover" />
               </div>
-              <div className="text-center mt-3 font-mono">
-                <p className="text-[9px] tracking-[0.3em] text-zinc-500">05.05.2025 • ROBLOX</p>
-                <p className="font-bold text-[12px] text-[#ff5a8f] mt-1">DIYAN'S BOOTH 💖</p>
-              </div>
+              <div className="text-center mt-3 font-mono"><p className="text-[9px] tracking-[0.3em] text-zinc-500">05.05.2025 • ROBLOX</p><p className="font-bold text-[11px] text-[#ff5a8f] mt-1">DIYAN'S BOOTH 💖</p></div>
             </div>
 
             <div className="mt-4 bg-[#fff0f5] p-5 rounded-[20px] border border-pink-200 text-center">
               <p className="font-mono text-[10px] tracking-[0.3em] text-pink-400 mb-3">FROM DIYAN ♡</p>
-
-              <p className="font-black text-[18px] text-[#ff5a8f] leading-tight">
-                CIEEE ULTAH! 🎉
-              </p>
-              <p className="text-[13px] text-zinc-700 mt-3 leading-relaxed">
-                Akhirnya tua juga lu wkwk. Ini hadiah photobooth, 3 foto lu yang paling cakep menurut gua.
-              </p>
-
+              <p className="font-black text-[17px] text-[#ff5a8f]">CIEEE ULTAH! 🎉</p>
+              <p className="text-[13px] text-zinc-700 mt-3 leading-relaxed">Akhirnya tua juga lu wkwk. Ini hadiah photobooth, 3 foto lu yang paling cakep menurut gua.</p>
               <div className="w-10 h-[2px] bg-pink-200 mx-auto my-4 rounded-full"></div>
-
-              <p className="text-[13px] text-zinc-700 leading-relaxed">
-                Makasih ya udah mau kenal sama gua, mau temenan sama gua sampe sekarang. Semoga tahun ini semua yang lu mau kejadian, sehat terus, bahagia terus.
-              </p>
-
-              <p className="text-[13px] text-zinc-700 leading-relaxed mt-3">
-                Kado kecil ini gua bikin sendiri, semoga lu suka ya. Love you! 🐰
-              </p>
-
-              <div className="mt-4 bg-white rounded-xl p-3 border border-dashed border-pink-200">
-                <p className="text-[12px] text-zinc-600 leading-relaxed italic">
-                  On your special day - you are loved, you are cute, you are everything.
-                </p>
-                <p className="font-black text-[13px] text-[#ff5a8f] mt-1">Happy Birthday! 🌸🥺💖</p>
-              </div>
+              <p className="text-[13px] text-zinc-700 leading-relaxed">Makasih ya udah mau kenal sama gua, mau temenan sama gua sampe sekarang. Semoga tahun ini semua yang lu mau kejadian, sehat terus, bahagia terus.</p>
+              <p className="text-[13px] text-zinc-700 leading-relaxed mt-3">Kado kecil ini gua bikin sendiri, semoga lu suka ya. Love you! 🐰</p>
+              <div className="mt-4 bg-white rounded-xl p-3 border border-dashed border-pink-200"><p className="text-[12px] text-zinc-600 italic leading-relaxed">On your special day - you are loved, you are cute, you are everything.</p><p className="font-black text-[13px] text-[#ff5a8f] mt-1">Happy Birthday! 🌸🥺💖</p></div>
             </div>
-            <button onClick={()=>setShowGift(false)} className="w-full mt-4 bg-[#ff5a8f] text-white py-3 rounded-full font-bold active:scale-95">Ambil 💖</button>
+
+            <button onClick={()=>setShowGift(false)} className="w-full mt-4 bg-[#ff5a8f] text-white py-3 rounded-full font-bold sticky bottom-0">Tutup 💖</button>
           </div>
         </div>
       )}

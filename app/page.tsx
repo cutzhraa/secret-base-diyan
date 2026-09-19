@@ -6,7 +6,6 @@ export default function Game() {
   const [showGift, setShowGift] = useState(false)
   const keys = useRef<Record<string,boolean>>({})
 
-  // SEMUA POSISI GUA TARO DITENGAH BIAR KEJANGKAU, GAK DI POJOK MENTOK
   const hideSpots = [
     {x: 65, y: 55},
     {x: 25, y: 55},
@@ -19,7 +18,6 @@ export default function Game() {
   const [giftSpot] = useState(()=> hideSpots[Math.floor(Math.random()*hideSpots.length)])
   const giftPos = giftSpot
 
-  // LONGGARIN JADI 5 BIAR GAK HARUS PRESISI BANGET
   const isNear = Math.abs(pos.x - giftPos.x) < 5 && Math.abs(pos.y - giftPos.y) < 5
   const dist = Math.sqrt(Math.pow(pos.x-giftPos.x,2)+Math.pow(pos.y-giftPos.y,2))
   const canSee = dist < 12
@@ -41,7 +39,6 @@ export default function Game() {
         if(keys.current['s'] || keys.current['arrowdown']) ny+=1.2
         if(keys.current['a'] || keys.current['arrowleft']) nx-=1.2
         if(keys.current['d'] || keys.current['arrowright']) nx+=1.2
-        // BATAS GUA LONGGARIN BIAR BISA SAMPE POJOK
         return {x: Math.max(5,Math.min(90,nx)), y: Math.max(15,Math.min(90,ny))}
       })
     },14)
@@ -92,8 +89,35 @@ export default function Game() {
       </div>
 
       {showGift && (
-        <div className="absolute inset-0 bg-pink-200/60 backdrop-blur-sm z-50 flex items-center justify-center p-5">
-          <div className="bg-white rounded-[1.8rem] w-full max-w-sm p-5 shadow-2xl text-black border-2 border-pink-200"><p className="text-center text-5xl">🎉💖</p><h2 className="text-center font-black text-[#ff5a8f] text-xl mt-2">KETEMU!</h2><img src="/diyan1.jpg" className="w-full h-44 object-cover rounded-2xl mt-3"/><div className="mt-3 bg-[#fff0f5] p-4 rounded-xl text-[13px] border">GANTI DISINI BEJIR</div><button onClick={()=>setShowGift(false)} className="w-full mt-4 bg-[#ff5a8f] text-white py-3 rounded-full font-bold">Ambil 💖</button></div>
+        <div className="absolute inset-0 bg-pink-200/60 backdrop-blur-sm z-50 flex items-center justify-center p-5 overflow-y-auto">
+          <div className="bg-white rounded-[1.8rem] w-full max-w-sm p-5 shadow-2xl text-black border-2 border-pink-200 my-auto">
+            <p className="text-center text-4xl">🎉💖</p>
+            <h2 className="text-center font-black text-[#ff5a8f] text-xl mt-1">KETEMU!</h2>
+
+            {/* PHOTOBOOTH MEMANJANG */}
+            <div className="mt-4 mx-auto bg-white p-2 pb-5 rounded-[4px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] rotate-[-1.5deg] w-[220px] border border-zinc-200">
+              <div className="flex justify-between px-3 mb-2">
+                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
+                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
+                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
+                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
+              </div>
+              <div className="flex flex-col gap-2 bg-zinc-900 p-2">
+                <img src="/diyan1.jpg" className="w-full h-36 object-cover" alt="diyan1" />
+                <img src="/diyan2.jpg" className="w-full h-36 object-cover" alt="diyan2" />
+                <img src="/diyan3.jpg" className="w-full h-36 object-cover" alt="diyan3" />
+              </div>
+              <div className="text-center mt-3 font-mono">
+                <p className="text-[9px] tracking-[0.3em] text-zinc-500">05.05.2025 • ROBLOX</p>
+                <p className="font-bold text-[12px] text-[#ff5a8f] mt-1">DIYAN'S BOOTH 💖</p>
+              </div>
+            </div>
+
+            <div className="mt-4 bg-[#fff0f5] p-4 rounded-xl text-[13px] border text-center leading-relaxed">
+              GANTI DISINI BEJIR<br/>Tulisan sayang lu disini 🥺💖
+            </div>
+            <button onClick={()=>setShowGift(false)} className="w-full mt-4 bg-[#ff5a8f] text-white py-3 rounded-full font-bold active:scale-95">Ambil 💖</button>
+          </div>
         </div>
       )}
     </div>

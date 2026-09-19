@@ -113,16 +113,32 @@ export default function Game() {
               </div>
             </div>
 
-            <div className="mt-4 bg-[#fff0f5] p-4 rounded-xl text-[13px] border text-center leading-relaxed">
-              From Diyan<br/>CIEEE ULTAH! 🎉 
-              Akhirnya tua juga lu wkwk. 
-              Ini hadiah photobooth, 3 foto lu yang paling cakep menurut gua. 
-              Happy birthday yaa, wish you all the best. 
-              Makasih ya udah mau kenal sama gua, mau temenan sama gua sampe sekarang.
-              Semoga tahun ini semua yang lu mau kejadian, sehat terus, bahagia terus.
-              Kado kecil ini gua bikin sendiri, semoga lu suka ya. Love you! 🐰
-              On your special day - you are loved, you are cute, you are everything.
-              Happy Birthday! 🌸 🥺💖
+            <div className="mt-4 bg-[#fff0f5] p-5 rounded-[20px] border border-pink-200 text-center">
+              <p className="font-mono text-[10px] tracking-[0.3em] text-pink-400 mb-3">FROM DIYAN ♡</p>
+
+              <p className="font-black text-[18px] text-[#ff5a8f] leading-tight">
+                CIEEE ULTAH! 🎉
+              </p>
+              <p className="text-[13px] text-zinc-700 mt-3 leading-relaxed">
+                Akhirnya tua juga lu wkwk. Ini hadiah photobooth, 3 foto lu yang paling cakep menurut gua.
+              </p>
+
+              <div className="w-10 h-[2px] bg-pink-200 mx-auto my-4 rounded-full"></div>
+
+              <p className="text-[13px] text-zinc-700 leading-relaxed">
+                Makasih ya udah mau kenal sama gua, mau temenan sama gua sampe sekarang. Semoga tahun ini semua yang lu mau kejadian, sehat terus, bahagia terus.
+              </p>
+
+              <p className="text-[13px] text-zinc-700 leading-relaxed mt-3">
+                Kado kecil ini gua bikin sendiri, semoga lu suka ya. Love you! 🐰
+              </p>
+
+              <div className="mt-4 bg-white rounded-xl p-3 border border-dashed border-pink-200">
+                <p className="text-[12px] text-zinc-600 leading-relaxed italic">
+                  On your special day - you are loved, you are cute, you are everything.
+                </p>
+                <p className="font-black text-[13px] text-[#ff5a8f] mt-1">Happy Birthday! 🌸🥺💖</p>
+              </div>
             </div>
             <button onClick={()=>setShowGift(false)} className="w-full mt-4 bg-[#ff5a8f] text-white py-3 rounded-full font-bold active:scale-95">Ambil 💖</button>
           </div>

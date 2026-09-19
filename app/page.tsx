@@ -103,9 +103,9 @@ export default function Game() {
                 <div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
               </div>
               <div className="flex flex-col gap-2 bg-zinc-900 p-2">
-                <img src="/diyan1.jpg" className="w-full h-36 object-cover" alt="diyan1" />
-                <img src="/diyan2.jpg" className="w-full h-36 object-cover" alt="diyan2" />
-                <img src="/diyan3.jpg" className="w-full h-36 object-cover" alt="diyan3" />
+                <img src="/diyan1.jpeg" className="w-full h-36 object-cover" alt="diyan1" />
+                <img src="/diyan2.jpeg" className="w-full h-36 object-cover" alt="diyan2" />
+                <img src="/diyan3.jpeg" className="w-full h-36 object-cover" alt="diyan3" />
               </div>
               <div className="text-center mt-3 font-mono">
                 <p className="text-[9px] tracking-[0.3em] text-zinc-500">05.05.2025 • ROBLOX</p>

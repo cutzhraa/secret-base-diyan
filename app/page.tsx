@@ -114,7 +114,15 @@ export default function Game() {
             </div>
 
             <div className="mt-4 bg-[#fff0f5] p-4 rounded-xl text-[13px] border text-center leading-relaxed">
-              GANTI DISINI BEJIR<br/>Tulisan sayang lu disini 🥺💖
+              From Diyan<br/>CIEEE ULTAH! 🎉 
+              Akhirnya tua juga lu wkwk. 
+              Ini hadiah photobooth, 3 foto lu yang paling cakep menurut gua. 
+              Happy birthday yaa, wish you all the best. 
+              Makasih ya udah mau kenal sama gua, mau temenan sama gua sampe sekarang.
+              Semoga tahun ini semua yang lu mau kejadian, sehat terus, bahagia terus.
+              Kado kecil ini gua bikin sendiri, semoga lu suka ya. Love you! 🐰
+              On your special day - you are loved, you are cute, you are everything.
+              Happy Birthday! 🌸 🥺💖
             </div>
             <button onClick={()=>setShowGift(false)} className="w-full mt-4 bg-[#ff5a8f] text-white py-3 rounded-full font-bold active:scale-95">Ambil 💖</button>
           </div>

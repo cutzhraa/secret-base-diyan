@@ -65,7 +65,6 @@ export default function Game() {
         <div className="bg-white text-[8px] font-bold px-1.5 py-0.5 rounded-full text-center -mt-1 shadow border">Diyan</div>
       </div>
 
-      {/* JOYSTICK ROBLOX - CUMA MUNCUL DI HP */}
       <div className="absolute bottom-4 left-4 z-30 lg:hidden">
         <div
           className="w-[120px] h-[120px] bg-white/40 backdrop-blur-md rounded-full border-2 border-white shadow-xl flex items-center justify-center relative"
@@ -75,11 +74,11 @@ export default function Game() {
             const x = t.clientX - rect.left - rect.width/2
             const y = t.clientY - rect.top - rect.height/2
             const max = 40
-            const dist = Math.min(max, Math.hypot(x,y))
+            const distJ = Math.min(max, Math.hypot(x,y))
             const ang = Math.atan2(y,x)
-            joy.current = {x: Math.cos(ang)*dist/max, y: Math.sin(ang)*dist/max}
+            joy.current = {x: Math.cos(ang)*distJ/max, y: Math.sin(ang)*distJ/max}
             const knob = document.getElementById('knob')!
-            knob.style.transform = `translate(${Math.cos(ang)*dist}px, ${Math.sin(ang)*dist}px)`
+            knob.style.transform = `translate(${Math.cos(ang)*distJ}px, ${Math.sin(ang)*distJ}px)`
           }}
           onTouchEnd={()=>{
             joy.current={x:0,y:0}
@@ -98,32 +97,50 @@ export default function Game() {
       </div>
 
       {showGift && (
-        <div className="absolute inset-0 bg-pink-200/70 backdrop-blur-md z-50 flex items-start justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-[1.8rem] w-full max-w-sm p-5 shadow-2xl text-black border-2 border-pink-200 my-4 max-h-[88dvh] overflow-y-auto">
+        <div className="absolute inset-0 bg-pink-200/80 backdrop-blur-md z-50 flex items-start justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-[1.8rem] w-full max-w-sm p-5 shadow-2xl text-black border-2 border-pink-200 my-6">
             <p className="text-center text-3xl">🎉💖</p>
             <h2 className="text-center font-black text-[#ff5a8f] text-xl mt-1">KETEMU!</h2>
 
             <div className="mt-4 mx-auto bg-white p-2 pb-5 rounded-[4px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] rotate-[-1deg] w-[200px] border border-zinc-200">
-              <div className="flex justify-between px-3 mb-2"><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div></div>
+              <div className="flex justify-between px-3 mb-2">
+                <div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div><div className="w-2 h-2 bg-zinc-800 rounded-full"></div>
+              </div>
               <div className="flex flex-col gap-2 bg-zinc-900 p-2">
                 <img src="/diyan1.jpeg" className="w-full h-32 object-cover" />
                 <img src="/diyan2.jpeg" className="w-full h-32 object-cover" />
                 <img src="/diyan3.jpeg" className="w-full h-32 object-cover" />
               </div>
-              <div className="text-center mt-3 font-mono"><p className="text-[9px] tracking-[0.3em] text-zinc-500">05.05.2025 • ROBLOX</p><p className="font-bold text-[11px] text-[#ff5a8f] mt-1">DIYAN'S BOOTH 💖</p></div>
+              <div className="text-center mt-3 font-mono">
+                <p className="text-[9px] tracking-[0.3em] text-zinc-500">05.05.2025 • ROBLOX</p>
+                <p className="font-bold text-[11px] text-[#ff5a8f] mt-1">DIYAN'S BOOTH 💖</p>
+              </div>
             </div>
 
-            <div className="mt-4 bg-[#fff0f5] p-5 rounded-[20px] border border-pink-200 text-center">
+            <div className="mt-5 bg-[#fff0f5] p-5 rounded-[20px] border border-pink-200 text-center">
               <p className="font-mono text-[10px] tracking-[0.3em] text-pink-400 mb-3">FROM DIYAN ♡</p>
-              <p className="font-black text-[17px] text-[#ff5a8f]">CIEEE ULTAH! 🎉</p>
-              <p className="text-[13px] text-zinc-700 mt-3 leading-relaxed">Akhirnya tua juga lu wkwk. Ini hadiah photobooth, 3 foto lu yang paling cakep menurut gua.</p>
+              <p className="font-black text-[17px] text-[#ff5a8f] leading-tight">CIEEE ULTAH! 🎉</p>
+              <p className="text-[13px] text-zinc-700 mt-3 leading-relaxed">
+                Akhirnya tua juga lu wkwk. Ini hadiah photobooth, 3 foto lu yang paling cakep menurut gua.
+              </p>
               <div className="w-10 h-[2px] bg-pink-200 mx-auto my-4 rounded-full"></div>
-              <p className="text-[13px] text-zinc-700 leading-relaxed">Makasih ya udah mau kenal sama gua, mau temenan sama gua sampe sekarang. Semoga tahun ini semua yang lu mau kejadian, sehat terus, bahagia terus.</p>
-              <p className="text-[13px] text-zinc-700 leading-relaxed mt-3">Kado kecil ini gua bikin sendiri, semoga lu suka ya. Love you! 🐰</p>
-              <div className="mt-4 bg-white rounded-xl p-3 border border-dashed border-pink-200"><p className="text-[12px] text-zinc-600 italic leading-relaxed">On your special day - you are loved, you are cute, you are everything.</p><p className="font-black text-[13px] text-[#ff5a8f] mt-1">Happy Birthday! 🌸🥺💖</p></div>
+              <p className="text-[13px] text-zinc-700 leading-relaxed">
+                Makasih ya udah mau kenal sama gua, mau temenan sama gua sampe sekarang. Semoga tahun ini semua yang lu mau kejadian, sehat terus, bahagia terus.
+              </p>
+              <p className="text-[13px] text-zinc-700 leading-relaxed mt-3">
+                Kado kecil ini gua bikin sendiri, semoga lu suka ya. Love you! 🐰
+              </p>
+              <div className="mt-4 bg-white rounded-xl p-3 border border-dashed border-pink-200">
+                <p className="text-[12px] text-zinc-600 italic leading-relaxed">On your special day - you are loved, you are cute, you are everything.</p>
+                <p className="font-black text-[13px] text-[#ff5a8f] mt-1">Happy Birthday! 🌸🥺💖</p>
+              </div>
             </div>
 
-            <button onClick={()=>setShowGift(false)} className="w-full mt-4 bg-[#ff5a8f] text-white py-3 rounded-full font-bold sticky bottom-0">Tutup 💖</button>
+            <div className="h-8"></div>
+            <button onClick={()=>setShowGift(false)} className="w-full bg-[#ff5a8f] text-white py-3.5 rounded-full font-bold shadow-[0_4px_0_#ff8ab8] active:translate-y-[4px] active:shadow-none transition-all">
+              Tutup 💖
+            </button>
+            <p className="text-center text-[10px] text-pink-300 mt-3">dibuat dengan sayang 🥺</p>
           </div>
         </div>
       )}

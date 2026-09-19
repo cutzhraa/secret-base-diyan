@@ -140,7 +140,7 @@ export default function Game() {
             <button onClick={()=>setShowGift(false)} className="w-full bg-[#ff5a8f] text-white py-3.5 rounded-full font-bold shadow-[0_4px_0_#ff8ab8] active:translate-y-[4px] active:shadow-none transition-all">
               Tutup 💖
             </button>
-            <p className="text-center text-[10px] text-pink-300 mt-3">dibuat dengan sayang 🥺</p>
+            <p className="text-center text-[10px] text-pink-300 mt-3"></p>
           </div>
         </div>
       )}
